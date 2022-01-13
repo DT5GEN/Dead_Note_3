@@ -15,11 +15,13 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = "[LifeCycleActivity]";
 
-    private int counter1 = 0;       // первый счетчик
-    private int counter2 = 0;       // второй счетчик
+    private Counters counters;      // интегрируем счётчики
 
     private TextView textCounter1;  // пользовательский элемент 1-го счетчика
     private TextView textCounter2;  // пользовательский элемент 2-го счетчика
+    private TextView textCounter3;  // пользовательский элемент 3-го счетчика
+    private TextView textCounter4;  // пользовательский элемент 4-го счетчика
+
 
 
     @Override
@@ -35,20 +37,22 @@ public class MainActivity extends AppCompatActivity {
         //Toast.makeText(getApplicationContext(), instanceState + " - onCreate()", Toast.LENGTH_SHORT).show();
         makeToast(instanceState + " - onCreate()");
 
-        // Получить пользовательский элемент по идентификатору
+        counters = new Counters();
+
+        initView();
+
+    }
+
+    private void initView() {
+        // Получить пользовательские элементы по идентификатору
         textCounter1 = findViewById(R.id.textView1);
         textCounter2 = findViewById(R.id.textView2);
-        Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                counter2++;
+        textCounter3 = findViewById(R.id.textView3);
+        textCounter4 = findViewById(R.id.textView4);
 
-                //установить текст на TextView
-                textCounter2.setText(String.format(Locale.getDefault(), "%d", counter2));
-            }
-        });
-
+        initButton2ClickListener();
+        initButton3ClickListener();
+        initButton4ClickListener();
     }
 
     @Override
@@ -113,11 +117,62 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, messageOfState);
     }
 
+//    // Обработка кнопки через атрибут onClick в макете
+//    public void button1_onClick(View view) {
+//        counters.incrementCounter1(); // запускаем метод увеличения второго счётчика при нажатии на эту кнопку
+//
+//        // textCounter1.setText(String.format(Locale.getDefault(), "%d", counter1));
+//
+//        setTextCounter(textCounter1, counters.getCounter1());
+//    }
+
+
+
+    private void initButton4ClickListener(){
+        Button button4 = findViewById(R.id.button4);
+        button4.setOnClickListener(button4ClickListener);
+    }
+
+    private void initButton3ClickListener(){
+        Button button3 = findViewById(R.id.button3);
+        button3.setOnClickListener(this::onClick);
+    }
+
+    private void initButton2ClickListener() {
+        Button button2 = findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counters.incrementCounter1();
+                setTextCounter(textCounter2, counters.getCounter1());
+            }
+        });
+    }
+
     // Обработка кнопки через атрибут onClick в макете
     public void button1_onClick(View view) {
-        counter1++;
-        textCounter1.setText(String.format(Locale.getDefault(), "%d", counter1));
+        counters.incrementCounter2();
+        setTextCounter(textCounter1, counters.getCounter2());
     }
 
 
+    public void onClick(View v) {
+        // Если на экране один пользовательский элемент, то такая обработка имеет смысл,
+        // но если на экране несколько элементов, здесь придется создавать "лишние" условия.
+        counters.incrementCounter3();
+        setTextCounter(textCounter3, counters.getCounter3());
+    }
+
+    public View.OnClickListener button4ClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            counters.incrementCounter4();
+            setTextCounter(textCounter4, counters.getCounter4());
+        }
+    };
+
+    // Установить текст на TextView
+    private void setTextCounter(TextView textCounter, int counter){
+        textCounter.setText(String.format(Locale.getDefault(), "%d", counter));
+    }
 }
