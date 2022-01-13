@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FirstFragment.Controller {
 
     private static final String TAG = " HappY MainActivity >> ";
 private Button fragmentStartButton;
@@ -20,7 +20,23 @@ private Button fragmentStartButton;
         fragmentStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Log.d(TAG, "onClick() called with: view = [" + view + "]");
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.first_fragment_holder , new FirstFragment())
+                        .addToBackStack("First transaction")
+                        .commit();
             }
         });
-}}
+}
+
+    @Override
+    public void startButtonPressed(String message) {
+        getSupportFragmentManager()
+                .beginTransaction()
+              //  .add(R.id.second_fragment_holder , new SecondFragment(message))
+             .add(R.id.second_fragment_holder, SecondFragment.getInstance(message))
+                .addToBackStack(null)
+                .commit();
+    }
+}
