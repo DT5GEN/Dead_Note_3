@@ -3,27 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
 
 
-    <RadioGroup
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/start_first_fragment"
+        android:text="run fragment"
+
+
+        />
+
+    <FrameLayout
+        android:background="#55ff0000"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:id="@+id/first_fragment_holder"
 
-        <RadioButton
-            android:id="@+id/radioButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RadioButton1" />
 
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="RadioButton2" />
-    </RadioGroup>
+
+
+
+        />
+<!--
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="First fragment TAG"
+        android:id="@+id/first_fragment_holder"
+        class="com.example.deadnote3.FirstFragment"
+        />
+-->
+
 
 </LinearLayout>
