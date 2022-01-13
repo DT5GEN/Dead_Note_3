@@ -4,11 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = "[LifeCycleActivity]";
+
+    private int counter1 = 0;       // первый счетчик
+    private int counter2 = 0;       // второй счетчик
+
+    private TextView textCounter1;  // пользовательский элемент 1-го счетчика
+    private TextView textCounter2;  // пользовательский элемент 2-го счетчика
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +34,21 @@ public class MainActivity extends AppCompatActivity {
         }
         //Toast.makeText(getApplicationContext(), instanceState + " - onCreate()", Toast.LENGTH_SHORT).show();
         makeToast(instanceState + " - onCreate()");
+
+        // Получить пользовательский элемент по идентификатору
+        textCounter1 = findViewById(R.id.textView1);
+        textCounter2 = findViewById(R.id.textView2);
+        Button button2 = findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counter2++;
+
+                //установить текст на TextView
+                textCounter2.setText(String.format(Locale.getDefault(), "%d", counter2));
+            }
+        });
+
     }
 
     @Override
@@ -85,5 +112,12 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), messageOfState, Toast.LENGTH_SHORT).show();
         Log.d(TAG, messageOfState);
     }
+
+    // Обработка кнопки через атрибут onClick в макете
+    public void button1_onClick(View view) {
+        counter1++;
+        textCounter1.setText(String.format(Locale.getDefault(), "%d", counter1));
+    }
+
 
 }
