@@ -1,5 +1,6 @@
 package com.example.deadnote3;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -11,7 +12,9 @@ import android.widget.Toast;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private final static String keyCounters = "Counters";
 
     private final static String TAG = "[LifeCycleActivity]";
 
@@ -62,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
         makeToast("onStart()");
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle saveInstanceState) {
-        super.onRestoreInstanceState(saveInstanceState);
-        //Toast.makeText(getApplicationContext(), "Повторный запуск!! - onRestoreInstanceState()", Toast.LENGTH_SHORT).show();
-        makeToast("Повторный запуск!! - onRestoreInstanceState()");
-    }
+//    @Override
+//    protected void onRestoreInstanceState(Bundle saveInstanceState) {
+//        super.onRestoreInstanceState(saveInstanceState);
+//        //Toast.makeText(getApplicationContext(), "Повторный запуск!! - onRestoreInstanceState()", Toast.LENGTH_SHORT).show();
+//        makeToast("Повторный запуск!! - onRestoreInstanceState()");
+//    }
 
     @Override
     protected void onResume() {
@@ -83,13 +86,13 @@ public class MainActivity extends AppCompatActivity {
         makeToast("onPause()");
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle saveInstanceState) {
-        super.onSaveInstanceState(saveInstanceState);
-        //Toast.makeText(getApplicationContext(), "onSaveInstanceState()", Toast.LENGTH_SHORT).show();
-        makeToast("onSaveInstanceState()");
-
-    }
+//    @Override
+//    protected void onSaveInstanceState(Bundle saveInstanceState) {
+//        super.onSaveInstanceState(saveInstanceState);
+//        //Toast.makeText(getApplicationContext(), "onSaveInstanceState()", Toast.LENGTH_SHORT).show();
+//        makeToast("onSaveInstanceState()");
+//
+//    }
 
     @Override
     protected void onStop() {
@@ -174,5 +177,30 @@ public class MainActivity extends AppCompatActivity {
     // Установить текст на TextView
     private void setTextCounter(TextView textCounter, int counter){
         textCounter.setText(String.format(Locale.getDefault(), "%d", counter));
+    }
+
+    // data retention
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle instanceState) {
+        super.onSaveInstanceState(instanceState);
+        instanceState.putParcelable(keyCounters, counters);
+        setTextCounters();
+        makeToast("onSaveInstanceState()");
+    }
+    // Data recovery
+
+    protected void onRestoreInstanceState(@NonNull Bundle instanceState){
+        super.onRestoreInstanceState(instanceState);
+        counters = (Counters) instanceState.getParcelable(keyCounters);
+        setTextCounters();
+        makeToast("Повторный запуск!! - onRestoreInstanceState()");
+    }
+
+    // data mapping on screen
+    private void setTextCounters(){
+        setTextCounter(textCounter1, counters.getCounter1());
+        setTextCounter(textCounter2, counters.getCounter2());
+        setTextCounter(textCounter3, counters.getCounter3());
+        setTextCounter(textCounter4, counters.getCounter4());
     }
 }
