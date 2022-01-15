@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dead Note 3</string>
+    <string name="defaultUrl">https://apple.com</string>
+    <string name="go">go</string>
 </resources>
